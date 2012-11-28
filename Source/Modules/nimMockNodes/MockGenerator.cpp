@@ -22,12 +22,13 @@
 #include "MockGenerator.h"
 #include <XnPropNames.h>
 #include <XnLog.h>
+#include <iostream>
 
 #define XN_MOCK_LOG_MASK	"Mock"
 
 MockGenerator::MockGenerator(xn::Context& context, const XnChar* strName, XnBool bAggregateData /* = FALSE */) :
 	MockProductionNode(context, strName),
-	m_bAggregateData(bAggregateData),
+    m_bAggregateData(bAggregateData),
 	m_bGenerating(FALSE),
 	m_bMirror(FALSE),
 	m_nCurrentDataIdx(0),
@@ -66,12 +67,12 @@ MockGenerator::~MockGenerator()
 XnBool MockGenerator::IsCapabilitySupported(const XnChar* strCapabilityName)
 {
 	if (strcmp(strCapabilityName, XN_CAPABILITY_MIRROR) == 0)
-	{
-		return (!m_bStateReady || m_bMirrorCap);
+    {
+        return m_bMirrorCap;//(!m_bStateReady || m_bMirrorCap);
 	}
 	else if (strcmp(strCapabilityName, XN_CAPABILITY_FRAME_SYNC) == 0)
-	{
-		return (!m_bStateReady || m_bFrameSyncCap);
+    {
+        return m_bFrameSyncCap;//(!m_bStateReady || m_bFrameSyncCap);
 	}
 	//TODO: Support alt view cap
 	else
@@ -82,8 +83,7 @@ XnBool MockGenerator::IsCapabilitySupported(const XnChar* strCapabilityName)
 
 XnStatus MockGenerator::SetIntProperty(const XnChar* strName, XnUInt64 nValue)
 {
-	XnStatus nRetVal = XN_STATUS_OK;
-
+    XnStatus nRetVal = XN_STATUS_OK;
 	if (strcmp(strName, XN_PROP_IS_GENERATING) == 0)
 	{
 		SetGenerating((XnBool)nValue);
