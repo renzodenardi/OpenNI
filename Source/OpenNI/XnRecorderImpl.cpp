@@ -29,6 +29,7 @@
 #include "XnPropNames.h"
 #include <XnCodecIDs.h>
 #include "XnTypeManager.h"
+#include <iostream>
 
 namespace xn 
 {
@@ -518,9 +519,16 @@ XnStatus RecorderImpl::WriteFileImpl(const XnChar* /*strNodeName*/,
 									 XnUInt32 nSize)
 {
 	//strNodeName may be NULL
-	XN_IS_BOOL_OK_RET(m_bIsFileOpen, XN_STATUS_ERROR);
+    XN_IS_BOOL_OK_RET(m_bIsFileOpen, XN_STATUS_ERROR);
 
-	return xnOSWriteFile(m_hOutFile, pData, nSize);
+    XnStatus nRetVal = xnOSWriteFile(m_hOutFile, pData, nSize);
+
+    if (nRetVal != XN_STATUS_OK)
+    {
+       return  nRetVal;
+    }
+
+    return xnOSFlushFile(m_hOutFile);
 }
 
 
