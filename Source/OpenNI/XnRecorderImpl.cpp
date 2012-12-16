@@ -521,14 +521,7 @@ XnStatus RecorderImpl::WriteFileImpl(const XnChar* /*strNodeName*/,
 	//strNodeName may be NULL
     XN_IS_BOOL_OK_RET(m_bIsFileOpen, XN_STATUS_ERROR);
 
-    XnStatus nRetVal = xnOSWriteFile(m_hOutFile, pData, nSize);
-
-    if (nRetVal != XN_STATUS_OK)
-    {
-       return  nRetVal;
-    }
-
-    return xnOSFlushFile(m_hOutFile);
+	return xnOSWriteFile(m_hOutFile, pData, nSize);
 }
 
 
